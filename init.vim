@@ -1,13 +1,19 @@
 :set number
 :set relativenumber
 :set autoindent
+:set noexpandtab
 :set tabstop=4
 :set shiftwidth=4
 :set smarttab
 :set softtabstop=4
-:set mouse=a
+:set autoindent
 
 call plug#begin()
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Tree sitter
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' } " telescope
 
 Plug 'https://github.com/jiangmiao/auto-pairs' " Auto Pairing brackets and quotes
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
@@ -25,7 +31,38 @@ let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', '
 
 call plug#end()
 
-nnoremap <C-f> :NERDTreeFocus<CR>
+" Treesitter config
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+	-- ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+	auto_install = true,
+	highlight = {
+		enable = true,              -- false will disable the whole extension
+
+		additional_vim_regex_highlighting = true,
+		-- disable = { "c", "rust" },  -- list of language that will be disabled
+	},
+}
+EOF
+
+nnoremap <Leader>ff <cmd>Telescope find_files<cr>
+nnoremap <Leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Telescope config
+
+lua <<EOF
+require('telescope').setup {
+	defaults = { 
+		vimgrep_arguments = { 
+			'rg', '--hidden', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case' 
+		}
+	}
+}
+EOF
+
 nnoremap <C-t> :NERDTreeToggle<CR>
 
 nmap <F12>:TagbarToggle<CR>
