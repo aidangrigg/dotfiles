@@ -1,14 +1,18 @@
 :set number
 :set relativenumber
 :set autoindent
-:set noexpandtab
-:set tabstop=4
-:set shiftwidth=4
+:set expandtab
+:set tabstop=2
+:set shiftwidth=2
 :set smarttab
-:set softtabstop=4
+:set softtabstop=2
 :set autoindent
 
 call plug#begin()
+
+Plug 'numToStr/FTerm.nvim' " togglable terminal
+
+Plug 'f-person/git-blame.nvim' " git blame
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Tree sitter
 
@@ -27,9 +31,24 @@ Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple c
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/neoclide/coc.nvim' , {'do': 'yarn install --frozen-lockfile'} " this is for auto complete, prettier and tslinting
 
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " Auto Completion
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-svelte']  " Auto Completion
 
 call plug#end()
+
+command Vimrc :e ~/.config/nvim/init.vim
+
+" \nh no highlights
+
+nnoremap <Leader>nh <cmd>noh<cr>
+
+" git blame
+
+nnoremap <Leader>gb <cmd>GitBlameToggle<cr>
+
+" FTerm
+
+nnoremap <Leader>tt <cmd>lua require("FTerm").toggle()<cr>
+nnoremap <Leader>tt <C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>
 
 " Treesitter config
 
@@ -40,7 +59,7 @@ require'nvim-treesitter.configs'.setup {
 	highlight = {
 		enable = true,              -- false will disable the whole extension
 
-		additional_vim_regex_highlighting = true,
+		additional_vim_regex_highlighting = false,
 		-- disable = { "c", "rust" },  -- list of language that will be disabled
 	},
 }
