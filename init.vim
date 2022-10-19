@@ -10,7 +10,7 @@
 
 call plug#begin()
 
-Plug 'numToStr/FTerm.nvim' " togglable terminal
+Plug 'voldikss/vim-floaterm' " floaterm
 
 Plug 'f-person/git-blame.nvim' " git blame
 
@@ -43,14 +43,27 @@ command Vimrc :e ~/.config/nvim/init.vim
 
 nnoremap <Leader>nh <cmd>noh<cr>
 
+" GIT STUFF
+
 " git blame
 
 nnoremap <Leader>gb <cmd>GitBlameToggle<cr>
 
-" FTerm
+" lazy git 
 
-nnoremap <Leader>tt <cmd>lua require("FTerm").toggle()<cr>
-nnoremap <Leader>tt <C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>
+nnoremap <Leader>gi <cmd>FloatermNew --width=0.8 --height=0.8 lazygit<cr>
+
+
+" Floaterm
+
+nnoremap <Leader>nt <cmd>FloatermNew! --width=0.8 --height=0.8<cr>
+nnoremap <Leader>tt <cmd>FloatermToggle<cr>
+
+tnoremap <C-h> <cmd>FloatermPrev<cr>
+tnoremap <C-l> <cmd>FloatermNext<cr>
+
+tnoremap <ESC> <cmd>FloatermToggle<cr>
+
 
 " Treesitter config
 
@@ -89,7 +102,7 @@ nnoremap <C-t> :NERDTreeToggle<CR>
 nmap <F12>:TagbarToggle<CR>
 
 " Tab Autocompletion
-inoremap <expr> <Tab> pumvisible() ? coc#_select_confirm() : "<Tab>"
+inoremap <expr> <Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
@@ -98,10 +111,9 @@ endif
 
 inoremap <silent><expr> <C-j>
       \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
+      \ CheckBackspace() ? false :
       \ coc#refresh()
-inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
+inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1) : false
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
