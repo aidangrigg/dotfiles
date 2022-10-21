@@ -7,6 +7,12 @@
 :set smarttab
 :set softtabstop=2
 :set autoindent
+:set nowrap
+:set so=7
+:set foldmethod=syntax
+:set foldlevel=99
+:set foldclose=all
+:set nofoldenable
 
 call plug#begin()
 
@@ -62,7 +68,7 @@ nnoremap <Leader>tt <cmd>FloatermToggle<cr>
 tnoremap <C-h> <cmd>FloatermPrev<cr>
 tnoremap <C-l> <cmd>FloatermNext<cr>
 
-tnoremap <ESC> <cmd>FloatermToggle<cr>
+tnoremap <C-\> <cmd>FloatermToggle<cr>
 
 
 " Treesitter config
