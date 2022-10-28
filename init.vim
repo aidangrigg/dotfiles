@@ -13,12 +13,18 @@
 :set foldlevel=99
 :set foldclose=all
 :set nofoldenable
+:let mapleader = "\<Space>"
 
 call plug#begin()
+
+Plug 'ntpeters/vim-better-whitespace' " highlighting trailing whitepsace
+
+Plug 'JoosepAlviste/nvim-ts-context-commentstring' " commenting multiple filetypes
 
 Plug 'voldikss/vim-floaterm' " floaterm
 
 Plug 'f-person/git-blame.nvim' " git blame
+Plug 'airblade/vim-gitgutter' " git gutter
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Tree sitter
 
@@ -72,6 +78,14 @@ tnoremap <C-\> <cmd>FloatermToggle<cr>
 
 
 " Treesitter config
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  context_commentstring = {
+    enable = true
+  }
+}
+EOF
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
