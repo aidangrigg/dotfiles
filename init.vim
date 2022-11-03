@@ -19,12 +19,13 @@ Plug 'ntpeters/vim-better-whitespace' " highlighting trailing whitepsace
 
 " lsp
 Plug 'neoclide/coc.nvim' , {'do': 'yarn install --frozen-lockfile'} " autocomplete
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-svelte']
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-svelte', 'coc-java']
 
 " code navigation
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim' " telescope
 Plug 'preservim/nerdtree' " file tree
+Plug 'ludovicchabant/vim-gutentags' " tag management
 Plug 'preservim/tagbar' " tagbar for code navigation
 
 " other useful things
@@ -77,6 +78,8 @@ set background=dark
 set termguicolors
 colorscheme gruvbox
 
+set mouse=
+
 " ==========================================================
 " PLUGIN CONFIG
 " ==========================================================
@@ -103,7 +106,11 @@ EOF
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
+let g:tagbar_ctags_bin="/usr/bin/ctags"
 
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
 " ==========================================================
 " KEYMAPS
 " ==========================================================
@@ -119,7 +126,7 @@ nnoremap <Leader>gb <cmd>GitBlameToggle<cr>
 
 " floaterm
 nnoremap <Leader>nt <cmd>FloatermNew! --width=0.8 --height=0.8<cr>
-nnoremap <Leader>tt <cmd>FloatermToggle --width=0.8 --height=0.8<cr>
+nnoremap <Leader>tt <cmd>FloatermToggle<cr>
 nnoremap <Leader>gi <cmd>FloatermNew --width=0.8 --height=0.8 lazygit<cr>
 
 tnoremap <C-h> <cmd>FloatermPrev<cr>
@@ -138,7 +145,7 @@ nnoremap <Leader>tb <cmd>TagbarToggle<CR>
 " coc config
 
 " tab autocompletion
-inoremap <expr> <Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "<Tab>"
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " ctrl-j & k move up and down autocomplete prompts
@@ -149,7 +156,7 @@ inoremap <silent><expr> <C-j>
 inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1) : false
 
 " goto code navigation.
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
