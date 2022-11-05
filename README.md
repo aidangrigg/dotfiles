@@ -1,5 +1,9 @@
 # dotfiles
 
+## setup
+
+```ln -sr {config file} {directory the config file should be}```
+
 ## font
 
 Font [BitstreamVeraSansMono](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/BitstreamVeraSansMono.zip)
