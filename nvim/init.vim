@@ -25,7 +25,6 @@ let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', '
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim' " telescope
 Plug 'preservim/nerdtree' " file tree
-Plug 'ludovicchabant/vim-gutentags' " tag management
 Plug 'preservim/tagbar' " tagbar for code navigation
 
 " other useful things
