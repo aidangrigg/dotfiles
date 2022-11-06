@@ -16,6 +16,7 @@ Plug 'itchyny/lightline.vim' " status bar
 Plug 'ryanoasis/vim-devicons' " developer icons
 Plug 'rafi/awesome-vim-colorschemes' " colorschemes
 Plug 'ntpeters/vim-better-whitespace' " highlighting trailing whitepsace
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 " lsp
 Plug 'neoclide/coc.nvim' , {'do': 'yarn install --frozen-lockfile'} " autocomplete
@@ -99,6 +100,9 @@ require('telescope').setup {
 			'rg', '--hidden', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'
 		}
 	}
+}
+
+require("indent_blankline").setup {
 }
 
 EOF
