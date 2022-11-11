@@ -52,6 +52,7 @@ call plug#end()
 :set shiftwidth=2
 :set smarttab
 :set autoindent
+:set colorcolumn=80
 
 " line wrapping
 :set nowrap
@@ -62,7 +63,7 @@ call plug#end()
 
 " line folding
 :set so=7
-:set foldmethod=syntax
+:set foldmethod=manual
 :set foldlevel=99
 :set foldclose=all
 :set nofoldenable
@@ -71,9 +72,7 @@ call plug#end()
 :let mapleader = "\<Space>"
 
 " colourscheme
-let g:lightline = {
-	\ 'colorscheme': 'gruvbox',
-	\ }
+let g:lightline = { 'colorscheme': 'gruvbox' }
 set background=dark
 set termguicolors
 colorscheme gruvbox
@@ -148,7 +147,7 @@ nnoremap <Leader>tb <cmd>TagbarToggle<CR>
 " coc config
 
 " tab autocompletion
-inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "<Tab>"
+inoremap <expr> <Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " ctrl-j & k move up and down autocomplete prompts
