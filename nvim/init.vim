@@ -13,19 +13,18 @@ Plug 'airblade/vim-gitgutter' " git gutter
 " syntax highlighting & colorscheme
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " tree sitter
 Plug 'itchyny/lightline.vim' " status bar
-Plug 'ryanoasis/vim-devicons' " developer icons
-Plug 'rafi/awesome-vim-colorschemes' " colorschemes
+Plug 'nvim-tree/nvim-web-devicons' " icons
+Plug 'sainnhe/gruvbox-material' " colorscheme
 Plug 'ntpeters/vim-better-whitespace' " highlighting trailing whitepsace
 Plug 'lukas-reineke/indent-blankline.nvim'
 
 " lsp
 Plug 'neoclide/coc.nvim' , {'do': 'yarn install --frozen-lockfile'} " autocomplete
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-svelte', 'coc-java']
 
 " code navigation
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim' " telescope
-Plug 'preservim/nerdtree' " file tree
+Plug 'nvim-tree/nvim-tree.lua' " file explorer
 Plug 'preservim/tagbar' " tagbar for code navigation
 
 " other useful things
@@ -71,13 +70,28 @@ call plug#end()
 " leader remapping
 :let mapleader = "\<Space>"
 
+
 " colourscheme
-let g:lightline = { 'colorscheme': 'gruvbox' }
 set background=dark
 set termguicolors
-colorscheme gruvbox
+
+let g:lightline = {
+  \ 'colorscheme': 'gruvbox_material',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'absolutepath', 'modified' ] ],
+  \ }
+  \ }
+
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_dim_inactive_windows = 1
+
+colorscheme gruvbox-material
 
 set mouse=
+set noshowmode
+set updatetime=100
 
 " ==========================================================
 " PLUGIN CONFIG
@@ -87,6 +101,7 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
+    additional_vim_regex_highlighting = false
   },
   context_commentstring = {
     enable = true
@@ -104,10 +119,35 @@ require('telescope').setup {
 require("indent_blankline").setup {
 }
 
+require("nvim-web-devicons").setup {
+  -- globally enable different highlight colors per icon (default to true)
+  -- if set to false all icons will have the default icon's color
+  color_icons = true;
+  -- globally enable default icons (default to false)
+  -- will get overriden by `get_icons` option
+  default = true;
+}
+
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "9", action = "tabnew" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
+
 EOF
 
-let g:NERDTreeDirArrowExpandable="+"
-let g:NERDTreeDirArrowCollapsible="~"
 let g:tagbar_ctags_bin="/usr/bin/ctags"
 
 let g:better_whitespace_enabled=1
@@ -117,11 +157,14 @@ let g:strip_whitespace_confirm=0
 " KEYMAPS
 " ==========================================================
 
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
 " \nh no highlights
 nnoremap <Leader>nh <cmd>noh<cr>
 
 " nerdtree
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-t> :NvimTreeToggle<CR>
 
 " git blame
 nnoremap <Leader>gb <cmd>GitBlameToggle<cr>
@@ -147,18 +190,16 @@ nnoremap <Leader>tb <cmd>TagbarToggle<CR>
 " coc config
 
 " tab autocompletion
-inoremap <expr> <Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <expr><silent><Tab> coc#pum#visible() ? coc#_select_confirm() : "<Tab>"
+inoremap <expr><silent><c-space> coc#refresh()
 
 " ctrl-j & k move up and down autocomplete prompts
-inoremap <silent><expr> <C-j>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? false :
-      \ coc#refresh()
-inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1) : false
+inoremap <expr><silent><C-j> coc#pum#visible() ? coc#pum#next(1) : false
+inoremap <expr><silent><C-k> coc#pum#visible() ? coc#pum#prev(1) : false
 
 " goto code navigation.
-nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> gd :call CocAction('jumpDefinition')<CR>
+nmap <silent> gvd :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)

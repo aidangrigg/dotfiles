@@ -1,5 +1,7 @@
 {
   "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
   "eslint.autoFixOnSave": true,
   "eslint.enable": true,
   "svelte.enable-ts-plugin": true,
