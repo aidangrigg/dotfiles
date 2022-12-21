@@ -3,12 +3,11 @@
 " ==========================================================
 call plug#begin()
 
-" terminal
-Plug 'voldikss/vim-floaterm'
+" tmux
+Plug 'alexghergh/nvim-tmux-navigation'
 
 " git
-Plug 'f-person/git-blame.nvim' " git blame
-Plug 'airblade/vim-gitgutter' " git gutter
+Plug 'tpope/vim-fugitive'
 
 " syntax highlighting & colorscheme
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " tree sitter
@@ -70,10 +69,14 @@ call plug#end()
 " leader remapping
 :let mapleader = "\<Space>"
 
-
 " colourscheme
-set background=dark
 set termguicolors
+
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_foreground = 'material'
+let g:gruvbox_material_better_performance = 1
+
+colorscheme gruvbox-material
 
 let g:lightline = {
   \ 'colorscheme': 'gruvbox_material',
@@ -82,16 +85,10 @@ let g:lightline = {
   \ }
   \ }
 
-let g:gruvbox_material_background = 'hard'
-let g:gruvbox_material_better_performance = 1
-let g:gruvbox_material_enable_bold = 1
-let g:gruvbox_material_dim_inactive_windows = 1
-
-colorscheme gruvbox-material
-
 set mouse=
 set noshowmode
 set updatetime=100
+set cursorline
 
 " ==========================================================
 " PLUGIN CONFIG
