@@ -1,13 +1,4 @@
-require('telescope').setup {
-  pickers = {
-    find_files = {
-      theme = "dropdown"
-    },
-    live_grep = {
-      theme = "dropdown"
-    }
-  }
-}
+require('telescope').setup {}
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})

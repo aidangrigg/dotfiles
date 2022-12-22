@@ -20,3 +20,5 @@ vim.opt.mouse = ''
 vim.opt.showmode = false
 vim.opt.updatetime = 100
 vim.opt.cursorline = true
+
+vim.opt.termguicolors = true
