@@ -6,7 +6,7 @@
 
 ## font
 
-Font [BitstreamVeraSansMono](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/BitstreamVeraSansMono.zip)
+Font [FiraMono](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/FiraMono.zip)
 
 ## nvim
 
