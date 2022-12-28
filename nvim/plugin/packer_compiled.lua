@@ -144,6 +144,11 @@ _G.packer_plugins = {
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
   },
+  ["nlsp-settings.nvim"] = {
+    loaded = true,
+    path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nlsp-settings.nvim",
+    url = "https://github.com/tamago324/nlsp-settings.nvim"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/aidan/.local/share/nvim/site/pack/packer/start/nvim-cmp",

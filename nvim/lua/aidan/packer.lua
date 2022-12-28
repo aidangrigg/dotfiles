@@ -19,7 +19,6 @@ return require('packer').startup(function(use)
   use 'nvim-tree/nvim-web-devicons'
   use 'sainnhe/gruvbox-material'
   use 'ntpeters/vim-better-whitespace'
-  use 'lukas-reineke/indent-blankline.nvim'
 
   use 'nvim-lua/plenary.nvim'
   use 'nvim-tree/nvim-tree.lua'
@@ -36,6 +35,7 @@ return require('packer').startup(function(use)
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  -- LSP
   use {
 	  'VonHeikemen/lsp-zero.nvim',
 	  requires = {
@@ -58,4 +58,7 @@ return require('packer').startup(function(use)
 	  }
   }
 
+  use 'tamago324/nlsp-settings.nvim'
+  use('jose-elias-alvarez/null-ls.nvim')
+  use('MunifTanjim/prettier.nvim')
 end)
