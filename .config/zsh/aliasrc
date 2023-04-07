@@ -4,3 +4,13 @@ alias ll="ls -la"
 
 # dotfiles config
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+
+# ====================================
+# Arduino
+# ====================================
+
+alias ar="arduino-cli"
+alias arls="arduino-cli board list"
+
+alias arcmp="arduino-cli compile --fqbn arduino:avr:uno"
+alias arupl="arduino-cli upload --fqbn arduino:avr:uno -p"

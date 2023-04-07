@@ -2,6 +2,10 @@
 autoload -Uz vcs_info
 precmd() { vcs_info }
 
+fpath=(~/.config/zsh/completions $fpath)
+
+setopt autocd
+
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
