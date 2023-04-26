@@ -1,0 +1,71 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Fira Mono, "Font Awesome 6 Free";
+  font-size: 12px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(21, 18, 27, 0);
+  color: white;
+}
+
+tooltip {
+  background: #242424;
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #393939;
+}
+
+#workspaces button {
+  color: white;
+}
+
+#workspaces button.active {
+  background: black;
+}
+
+#workspaces button.focused {
+  background: #4c4c4d;
+  border-radius: 10px;
+}
+
+#workspaces button.urgent {
+}
+
+.modules-left,
+.modules-right {
+  background: #242424;
+  margin-top: 2px;
+  border-radius: 10px;
+}
+
+#workspaces {
+  margin-left: 10px;
+}
+
+.modules-right {
+  margin-right: 10px;
+}
+
+#window,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#tray,
+#backlight,
+#clock,
+#battery {
+  padding: 2px 16px;
+  margin: 6px 0 6px 0;
+  font-weight: 600;
+  color: white;
+}
+
+#tray {
+  margin-right: 10px;
+}
+

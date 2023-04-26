@@ -1,15 +1,6 @@
 local lsp = require("lsp-zero")
 local null_ls = require("null-ls")
 local prettier = require("prettier")
-local nlspsettings = require("nlspsettings")
-
-nlspsettings.setup({
-  config_home = vim.fn.stdpath('config') .. '/nlsp-settings',
-  local_settings_dir = ".vim",
-  local_settings_root_markers_fallback = { '.git' },
-  append_default_schemas = true,
-  loader = 'json'
-})
 
 null_ls.setup({
   on_attach = function(client, bufnr)
@@ -51,11 +42,9 @@ lsp.preset("recommended")
 lsp.ensure_installed({
   'tsserver',
   'eslint',
-  'sumneko_lua',
 })
 
--- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
+lsp.configure('lua_ls', {
   settings = {
     Lua = {
       diagnostics = {
@@ -116,5 +105,5 @@ end)
 lsp.setup()
 
 vim.diagnostic.config({
-  virtual_text = true,
+  virtual_text = true
 })

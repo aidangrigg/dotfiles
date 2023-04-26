@@ -1,23 +1,5 @@
 
- function Color(color)
-
-  vim.g.linefly_options = {
-    separator_symbol = "⎪",
-    progress_symbol = "↓",
-    active_tab_symbol = "▪",
-    git_branch_symbol = "",
-    error_symbol = "E",
-    warning_symbol = "W",
-    information_symbol = "I",
-    tabline = false,
-    winbar = false,
-    with_file_icon = true,
-    with_git_branch = true,
-    with_git_status = true,
-    with_diagnostic_status = true,
-    with_session_status = true,
-    with_indent_status = false,
-  }
+ function GruvboxLight(color)
 
   vim.g.gruvbox_material_lightline_disable_bold = 1
   vim.g.gruvbox_material_background = 'medium'
@@ -34,6 +16,23 @@
 
   color = color or "gruvbox-material"
   vim.cmd.colorscheme(color)
+end
+
+function Monochrome(color)
+  color = color or "monochrome"
+  vim.opt.background = "dark"
+  vim.cmd.colorscheme(color)
+end
+
+function Zenbones(color)
+  vim.g.zenbones_compact = 1
+  color = color or "zenbones"
+  vim.opt.background = "dark"
+  vim.cmd.colorscheme(color)
+end
+
+function Color(color)
+  Zenbones()
 end
 
 Color()

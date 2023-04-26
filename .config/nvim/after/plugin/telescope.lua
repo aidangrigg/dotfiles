@@ -27,20 +27,10 @@ telescope.setup({
 
 -- THEMING
 
-local file_theme = require('telescope.themes').get_dropdown({
-  width = 0.8,
-  previewer = false,
-  prompt_title = false
-})
-
-local full_theme = {
-  width = 0.8;
-  show_line = false;
-  prompt_title = false;
-}
+local theme = require('telescope.themes').get_ivy()
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', function() builtin.find_files(file_theme) end)
-vim.keymap.set('n', '<leader>fg', function() builtin.live_grep(full_theme) end)
+vim.keymap.set('n', '<leader>ff', function() builtin.find_files(theme) end)
+vim.keymap.set('n', '<leader>fg', function() builtin.live_grep(theme) end)
 vim.keymap.set('n', '<leader>fs', builtin.treesitter);
 vim.keymap.set('n', '<leader>fb', builtin.buffers)

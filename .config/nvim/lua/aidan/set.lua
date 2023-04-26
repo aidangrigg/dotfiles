@@ -24,3 +24,5 @@ vim.opt.updatetime = 100
 vim.opt.cursorline = true
 
 vim.opt.termguicolors = true
+
+vim.opt.foldlevelstart = 99
