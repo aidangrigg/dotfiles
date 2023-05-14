@@ -23,20 +23,23 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
+
   use 'nvim-tree/nvim-web-devicons'
 
   use 'ntpeters/vim-better-whitespace'
 
-  use {
-    "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
-  }
+  -- use {
+  --   "windwp/nvim-autopairs",
+  --   config = function() require("nvim-autopairs").setup {} end
+  -- }
+
   use {
     'numToStr/Comment.nvim',
     config = function()
       require('Comment').setup()
     end
   }
+
   use({
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -78,13 +81,12 @@ return require('packer').startup(function(use)
   use {
     "danymat/neogen",
     requires = "nvim-treesitter/nvim-treesitter",
-    -- Uncomment next line if you want to follow only stable versions
     tag = "*"
   }
 
   use {
     'lewis6991/gitsigns.nvim',
-    -- tag = 'release' -- To use the latest release (do not use this if you run Neovim nightly or dev builds!)
+    tag = 'release'
   }
 
   -- Notetaking

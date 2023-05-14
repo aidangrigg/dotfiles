@@ -8,7 +8,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.smarttab = true
 vim.opt.autoindent = true
-vim.opt.colorcolumn= "80"
+vim.opt.colorcolumn = '80'
 vim.opt.signcolumn = 'yes'
 
 vim.opt.wrap = false

@@ -14,4 +14,3 @@ vim.keymap.set("v", "k", "gk")
 vim.keymap.set("v", "$", "g$")
 vim.keymap.set("v", "^", "g^")
 
-vim.keymap.set("n", "<leader>mp", ":MarkdownPreviewToggle<CR>")
