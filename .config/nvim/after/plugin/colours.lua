@@ -21,7 +21,14 @@ end
 function Monochrome(color)
   color = color or "monochrome"
   vim.opt.background = "dark"
+
   vim.cmd.colorscheme(color)
+
+  -- make the background actually black
+  vim.api.nvim_set_hl(0, 'Normal', { bg = "#000000" })
+
+  -- this plugin doesnt set a statusline color so set it manually
+  vim.api.nvim_set_hl(0, 'StatusLine', { fg = "#EBEBEB", bg ="#101010" })
 end
 
 function Zenbones(color)
@@ -31,8 +38,4 @@ function Zenbones(color)
   vim.cmd.colorscheme(color)
 end
 
-function Color(color)
-  Zenbones()
-end
-
-Color()
+Monochrome()

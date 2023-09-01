@@ -1,41 +1,41 @@
 local lsp = require("lsp-zero")
-local null_ls = require("null-ls")
-local prettier = require("prettier")
+-- local null_ls = require("null-ls")
+-- local prettier = require("prettier")
 
-null_ls.setup({
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.keymap.set("n", "<Leader>f", function()
-        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-      end, { buffer = bufnr, desc = "[lsp] format" })
-    end
+-- null_ls.setup({
+--   on_attach = function(client, bufnr)
+--     if client.supports_method("textDocument/formatting") then
+--       vim.keymap.set("n", "<Leader>f", function()
+--         vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+--       end, { buffer = bufnr, desc = "[lsp] format" })
+--     end
+--
+--     if client.supports_method("textDocument/rangeFormatting") then
+--       vim.keymap.set("x", "<Leader>f", function()
+--         vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+--       end, { buffer = bufnr, desc = "[lsp] format" })
+--     end
+--   end,
+-- })
 
-    if client.supports_method("textDocument/rangeFormatting") then
-      vim.keymap.set("x", "<Leader>f", function()
-        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-      end, { buffer = bufnr, desc = "[lsp] format" })
-    end
-  end,
-})
-
-prettier.setup({
-  bin = 'prettier',
-  filetypes = {
-    "css",
-    "graphql",
-    "html",
-    "javascript",
-    "javascriptreact",
-    "json",
-    "less",
-    "markdown",
-    "scss",
-    "typescript",
-    "typescriptreact",
-    "yaml",
-    "svelte"
-  },
-})
+-- prettier.setup({
+--   bin = 'prettier',
+--   filetypes = {
+--     "css",
+--     "graphql",
+--     "html",
+--     "javascript",
+--     "javascriptreact",
+--     "json",
+--     "less",
+--     "markdown",
+--     "scss",
+--     "typescript",
+--     "typescriptreact",
+--     "yaml",
+--     "svelte"
+--   },
+-- })
 
 lsp.preset("recommended")
 
@@ -62,6 +62,7 @@ lsp.configure('tsserver', {
   }
 })
 
+local luasnip = require('luasnip')
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Insert }
 local cmp_mappings = lsp.defaults.cmp_mappings({
@@ -69,6 +70,20 @@ local cmp_mappings = lsp.defaults.cmp_mappings({
   ['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
   ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   ['<CR>'] = vim.NIL,
+  ['<C-f>'] = cmp.mapping(function (fallback)
+    if luasnip.expand_or_jumpable() then
+      luasnip.expand_or_jump()
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
+  ['<C-b>'] = cmp.mapping(function (fallback)
+    if luasnip.jumpable(-1) then
+      luasnip.jump(-1)
+    else
+      fallback()
+    end
+  end, { "i", "s" }),
 })
 
 lsp.setup_nvim_cmp({

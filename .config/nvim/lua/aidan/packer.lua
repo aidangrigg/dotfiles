@@ -19,33 +19,10 @@ return require('packer').startup(function(use)
     requires = "rktjmp/lush.nvim"
   }
 
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-
-  use 'nvim-tree/nvim-web-devicons'
+  use 'nvim-treesitter/nvim-treesitter'
 
   use 'ntpeters/vim-better-whitespace'
 
-  -- use {
-  --   "windwp/nvim-autopairs",
-  --   config = function() require("nvim-autopairs").setup {} end
-  -- }
-
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
-  }
-
-  use({
-    "kylechui/nvim-surround",
-    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require("nvim-surround").setup{ } end
-  })
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -84,19 +61,16 @@ return require('packer').startup(function(use)
     tag = "*"
   }
 
-  use {
-    'lewis6991/gitsigns.nvim',
-    tag = 'release'
-  }
 
   -- Notetaking
-  use {
+ use {
     "nvim-neorg/neorg",
     run = ":Neorg sync-parsers",
     requires = "nvim-lua/plenary.nvim",
   }
 
   use 'renerocksai/telekasten.nvim'
+
   use({
     "iamcco/markdown-preview.nvim",
     run = "cd app && npm install",
@@ -106,4 +80,33 @@ return require('packer').startup(function(use)
   use 'preservim/vim-markdown'
   use 'junegunn/limelight.vim'
   use 'folke/zen-mode.nvim'
+  use 'mzlogin/vim-markdown-toc'
+
+  use {
+    'codethread/qmk.nvim',
+    config = function()
+      ---@type qmk.UserConfig
+      local conf = {
+        name = 'LAYOUT_split_3x6_3',       -- identify your layout name
+        layout = {
+          'x x x x x x _ x x x x x x',
+          'x x x x x x _ x x x x x x',
+          'x x x x x x _ x x x x x x',
+          '_ _ _ x x x _ x x x _ _ _',
+        },
+      }
+      require('qmk').setup(conf)
+    end
+  }
+
+  use {
+  "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  }
+  use 'miversen33/netman.nvim'
 end)
