@@ -5,22 +5,34 @@
   "exclusive": true,
   "passthrough": false,
   "modules-left": [
-    "sway/workspaces",
-    "sway/window"
+    "clock",
+    "custom/ncspot"
   ],
-  "modules-center": [],
+  "modules-center": [
+    "sway/workspaces",
+  ],
   "modules-right": [
-    "network",
     "pulseaudio",
     "pulseaudio#microphone",
+    "network",
     "battery",
-    "clock",
   ],
   "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
     "format": "{icon}",
-  },
-  "sway/window": {
-    "max-length": 50,
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "format-icons": {
+      // "focused": "",
+      // "persistent": "",
+      // "default": "",
+    }
   },
   "battery": {
     "interval": 60,
@@ -28,47 +40,35 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon}",
+    "format": "{icon} {capacity}%",
     "tooltip-format": "{capacity}%",
     "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
     ],
-  },
-  "cpu": {
-    "interval": 10,
-    "format": "  {usage}%",
-    "max-length": 10,
-    "on-click": ""
-  },
-  "memory": {
-    "interval": 30,
-    "format": " ",
-    "tooltip-format": "{used:0.1f}G",
-    "max-length": 10
-  },
-  "tray": {
-    "icon-size": 13,
-    "tooltip": false,
-    "spacing": 10
   },
   "network": {
     "format": "",
-    "format-wifi": "",
-    "format-ethernet": "",
+    "format-wifi": "󰤨",
+    "format-ethernet": "󰈀",
     "format-disconnected": "", //An empty format will hide the module.
     "tooltip-format": "{ifname} via {gwaddr} ",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname} ",
-    "on-click": "~/.config/waybar/scripts/rofi-wifi-menu.sh",
+    "on-click": "",
     "tooltip-format-disconnected": "Disconnected",
-    "align": "center",
+    "align": "center"
   },
   "pulseaudio": {
-    "format": "{icon}",
+    "format": "{icon} {volume}%",
     "format-muted": "",
     "on-click": "pamixer -t",
     "on-scroll-up": "pamixer -i 5",
@@ -95,8 +95,13 @@
     "scroll-step": 5,
   },
   "clock": {
-    "format": "{:%R }",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": "{:%R}",
     "align": "center",
   },
+  "custom/ncspot": {
+    "format": "♪ {}",
+    "interval": 1,
+    "exec": "/home/aidan/.config/waybar/scripts/ncspot.sh",
+    "on-click": "echo \"playpause\" | nc -W 1 -U /home/aidan/.cache/ncspot/ncspot.sock"
+  }
 }

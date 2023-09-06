@@ -1,0 +1,5 @@
+tmux_name=ncspot
+
+tmux new-session -ds $tmux_name "ncspot"
+tmux switch-client -t $tmux_name
+exit 0

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# this checks if we passed a directory in the command to open this script
+if [[ $# -eq 1 ]]; then
+    dir_selected=$1
+    dir_selected_name=$(basename "$dir_selected" | tr . _)
+    tmux new-session -ds $dir_selected_name -c $dir_selected
+    tmux switch-client -t $dir_selected_name
+    exit 0
+
+else
+    dir_selected=$(find ~/university/* ~/projects/ -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $dir_selected ]]; then
+    exit 0
+fi
+
+dir_selected_name=$(basename "$dir_selected" | tr . _)
+
+tmux new-session -ds $dir_selected_name -c $dir_selected
+tmux switch-client -t $dir_selected_name
+exit 0

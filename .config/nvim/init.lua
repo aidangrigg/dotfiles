@@ -78,7 +78,6 @@ require("lazy").setup({
 
   {
     'nvim-telescope/telescope.nvim',
-    tag = '*',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   -- LSP
@@ -120,10 +119,12 @@ require("lazy").setup({
     init = function() vim.g.mkdp_filetypes = { "markdown" } end,
   },
 
-  'preservim/vim-markdown',
+  {
+    'preservim/vim-markdown',
+    dependencies = { "godlygeek/tabular" }
+  },
   'junegunn/limelight.vim',
   'folke/zen-mode.nvim',
-  'mzlogin/vim-markdown-toc',
 
   {
     "nvim-neorg/neorg",

@@ -1,7 +1,7 @@
 * {
   border: none;
   border-radius: 0;
-  font-family: Fira Mono, "Font Awesome 6 Free";
+  font-family: Fira Mono, "MaterialIcons-Regular";
   font-size: 12px;
   min-height: 0;
 }
@@ -12,7 +12,7 @@ window#waybar {
 }
 
 tooltip {
-  background: #242424;
+  background: #000000;
   border-radius: 10px;
   border-width: 2px;
   border-style: solid;
@@ -21,15 +21,18 @@ tooltip {
 
 #workspaces button {
   color: white;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#workspaces button:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 #workspaces button.active {
-  background: black;
 }
 
 #workspaces button.focused {
-  background: #4c4c4d;
-  border-radius: 10px;
+  color: rgba(255, 255, 255, 1);
 }
 
 #workspaces button.urgent {
@@ -37,17 +40,13 @@ tooltip {
 
 .modules-left,
 .modules-right {
-  background: #242424;
-  margin-top: 2px;
-  border-radius: 10px;
+  padding: 10px 5px;
 }
 
-#workspaces {
-  margin-left: 10px;
-}
-
-.modules-right {
-  margin-right: 10px;
+#custom-ncspot {
+  border: 1px solid white;
+  border-radius: 50px;
+  padding: 5px 10px;
 }
 
 #window,
@@ -59,13 +58,8 @@ tooltip {
 #backlight,
 #clock,
 #battery {
-  padding: 2px 16px;
-  margin: 6px 0 6px 0;
+  padding: 5px 0px;
+  margin: 0px 10px;
   font-weight: 600;
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
 }
-
-#tray {
-  margin-right: 10px;
-}
-

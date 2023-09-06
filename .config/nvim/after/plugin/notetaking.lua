@@ -1,6 +1,8 @@
 -- vim-markdown
 vim.g.vim_markdown_folding_disabled = 1
 vim.g.vim_markdown_conceal = 1
+vim.g.vim_markdown_toc_autofit = 1
+vim.g.vim_markdown_new_list_item_indent = 0
 
 vim.keymap.set("n", "<leader>zm", ":ZenMode<CR>", { silent = true })
 vim.keymap.set("n", "<leader>ni", ":Neorg index<CR>", { silent = true })
