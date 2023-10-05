@@ -1,6 +1,4 @@
-
- function GruvboxLight(color)
-
+function GruvboxLight(color)
   vim.g.gruvbox_material_lightline_disable_bold = 1
   vim.g.gruvbox_material_background = 'medium'
   vim.g.gruvbox_material_foreground = 'material'
@@ -28,7 +26,11 @@ function Monochrome(color)
   vim.api.nvim_set_hl(0, 'Normal', { bg = "#000000" })
 
   -- this plugin doesnt set a statusline color so set it manually
-  vim.api.nvim_set_hl(0, 'StatusLine', { fg = "#EBEBEB", bg ="#101010" })
+  vim.api.nvim_set_hl(0, 'StatusLine', { fg = "#EBEBEB", bg = "#101010" })
+
+  -- background transparency
+  vim.api.nvim_set_hl(0, 'Normal', { bg = "none" })
+  vim.api.nvim_set_hl(0, 'NormalFloat', { bg = "none" })
 end
 
 function Zenbones(color)
@@ -38,4 +40,19 @@ function Zenbones(color)
   vim.cmd.colorscheme(color)
 end
 
-Monochrome()
+function VimMonochrome()
+  vim.g.monochrome_italic_comments = 1
+
+  vim.cmd.colorscheme("monochrome")
+
+  vim.api.nvim_set_hl(0, 'Normal', { bg = "#111111" })
+  vim.api.nvim_set_hl(0, 'NormalFloat', { bg = "#111111" })
+  vim.api.nvim_set_hl(0, 'SignColumn', { bg = "none" })
+  vim.api.nvim_set_hl(0, 'SignColumn', { bg = "none" })
+  vim.api.nvim_set_hl(0, 'PMenu', { bg = "#222222" })
+  vim.api.nvim_set_hl(0, 'PMenuSel', { bg = "#56514e", fg = "White" })
+end
+
+VimMonochrome()
+
+-- Monochrome()

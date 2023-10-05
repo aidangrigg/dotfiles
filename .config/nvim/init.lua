@@ -33,7 +33,15 @@ require("lazy").setup({
   {
     'stevearc/oil.nvim',
     config = function()
-      require('oil').setup {}
+      require('oil').setup {
+        columns = {
+          "permissions",
+          "size"
+        },
+        view_options = {
+          show_hidden = true,
+        }
+      }
       vim.keymap.set("n", "<leader>ft", ":Oil<CR>")
     end,
     keys = "<leader>ft"
@@ -45,7 +53,10 @@ require("lazy").setup({
     end
   },
   -- colourscheme
-  'kdheepak/monochrome.nvim',
+  -- 'kdheepak/monochrome.nvim',
+  'ellisonleao/gruvbox.nvim',
+  'robertmeta/nofrils',
+  'fxn/vim-monochrome',
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -125,12 +136,6 @@ require("lazy").setup({
   },
   'junegunn/limelight.vim',
   'folke/zen-mode.nvim',
-
-  {
-    "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    dependencies = "nvim-lua/plenary.nvim",
-  },
 
   {
     'codethread/qmk.nvim',

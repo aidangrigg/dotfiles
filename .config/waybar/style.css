@@ -1,7 +1,7 @@
 * {
   border: none;
   border-radius: 0;
-  font-family: Fira Mono, "MaterialIcons-Regular";
+  font-family: Fira Mono, Material Icons;
   font-size: 12px;
   min-height: 0;
 }
@@ -29,6 +29,7 @@ tooltip {
 }
 
 #workspaces button.active {
+  color: rgba(255, 255, 255, 1);
 }
 
 #workspaces button.focused {

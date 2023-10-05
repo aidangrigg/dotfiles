@@ -9,7 +9,7 @@ if [[ $# -eq 1 ]]; then
     exit 0
 
 else
-    dir_selected=$(find ~/university/* ~/projects/ -mindepth 1 -maxdepth 1 -type d | fzf)
+    dir_selected=$(find ~/university/* ~/projects/ -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $dir_selected ]]; then

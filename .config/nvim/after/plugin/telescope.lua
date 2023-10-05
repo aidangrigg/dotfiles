@@ -33,4 +33,4 @@ local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', function() builtin.find_files(theme) end)
 vim.keymap.set('n', '<leader>fg', function() builtin.live_grep(theme) end)
 vim.keymap.set('n', '<leader>fs', builtin.treesitter);
-vim.keymap.set('n', '<leader>fb', builtin.buffers)
+vim.keymap.set('n', '<leader>bk', builtin.buffers)

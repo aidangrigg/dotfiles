@@ -18,4 +18,4 @@ fi
 time=$(date -d@$current_secs -u +%M:%S)
 length=$(date -d@$((song_length/1000)) -u +%M:%S)
 
-printf '%s - %s | %s / %s' "$artist" "$title" "$time" "$length"
+printf '%.30s - %.30s | %s / %s' "$artist" "$title" "$time" "$length"

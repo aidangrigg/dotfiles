@@ -6,33 +6,32 @@
   "passthrough": false,
   "modules-left": [
     "clock",
-    "custom/ncspot"
+    "custom/ncspot",
   ],
   "modules-center": [
-    "sway/workspaces",
+    "wlr/workspaces",
   ],
   "modules-right": [
+    "memory",
+    "cpu",
     "pulseaudio",
     "pulseaudio#microphone",
     "network",
     "battery",
   ],
-  "sway/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{icon}",
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": []
-    },
-    "format-icons": {
-      // "focused": "",
-      // "persistent": "",
-      // "default": "",
-    }
+  "wlr/workspaces": {
+    "format": "{name}",
+    "onclick": "activate"
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "{usage}% ",
+    "max-length": 10
+  },
+  "memory": {
+    "interval": 10,
+    "format": "{}% ",
+    "max-length": 10
   },
   "battery": {
     "interval": 60,
@@ -95,7 +94,7 @@
     "scroll-step": 5,
   },
   "clock": {
-    "format": "{:%R}",
+    "format": "{:%a %d %b - %R }",
     "align": "center",
   },
   "custom/ncspot": {

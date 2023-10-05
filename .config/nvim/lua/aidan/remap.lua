@@ -21,4 +21,10 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
-vim.keymap.set("n", "<leader>lg", ":tabnew<CR>:term lazygit<CR>a", opts)
+-- buffer things
+-- <leader>bk opens telescope buffer list (defined in ../../after/plugin/telescope.lua)
+vim.keymap.set("n", "<leader>bl", ":bn<CR>", opts) -- next buffer
+vim.keymap.set("n", "<leader>bh", ":bp<CR>", opts) -- prev buffer
+vim.keymap.set("n", "<leader>bn", ":enew<CR>", opts) -- new buffer
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", opts) -- buffer close
+
