@@ -1,0 +1,25 @@
+backend="pulseaudio"
+notify=true
+
+[theme]
+background = "#111111"
+primary = "#FFFFFF"
+secondary = "#FFFFFF"
+title = "#2E84E6"
+playing = "#2E84E6"
+playing_selected = "#1ED760"
+playing_bg = "#181818"
+highlight = "#2E84E6"
+highlight_bg = "#222222"
+error = "#FFE4E4"
+error_bg = "#A50000"
+statusbar = "#000000"
+statusbar_progress = "#2E84E6"
+statusbar_bg = "#2E84E6"
+cmdline = "#FFFFFF"
+cmdline_bg = "#111111"
+
+[keybindings]
+"Ctrl+f" = "focus search"
+"Ctrl+l" = "focus library"
+"Ctrl+q" = "focus queue"
