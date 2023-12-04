@@ -1,0 +1,4 @@
+
+inherits = "serika-dark"
+
+"ui.background" = { bg = "#111111" } 

@@ -1,0 +1,8 @@
+[[language]]
+name = "markdown"
+text-width = 80
+rulers = []
+
+[[language]]
+name = "elm"
+formatter = { command = "elm-format" , args = ["--stdin"] }

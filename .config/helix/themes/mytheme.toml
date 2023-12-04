@@ -1,0 +1,56 @@
+ "ui.background" = { bg = "base" }
+ "ui.menu" = "surface"
+ "ui.menu.selected" = { fg = "iris", bg = "surface" }
+ "ui.linenr" = {fg = "subtle" }
+ "ui.popup" = { bg = "overlay" }
+ "ui.window" = { bg = "overlay" }
+ "ui.liner.selected" = "highlightOverlay"
+ "ui.selection" = "highlight"
+ "comment" = "subtle"
+ "ui.statusline" = {fg = "foam", bg = "surface" }
+ "ui.help" = { fg = "foam", bg = "surface" }
+ "ui.cursor" = { fg = "text", modifiers = ["reversed"] }
+ "ui.text" = { fg = "text" }
+ "operator" = "rose"
+ "ui.text.focus" = { fg = "base05" }
+ "variable" = "text"
+ "number" = "iris"
+ "constant" = "gold"
+ "attributes" = "gold" 
+ "type" = "foam"
+ "ui.cursor.match" = { fg = "gold", modifiers = ["underlined"] }
+ "string"  = "surface"
+ "property" = "foam"
+ "escape" = "subtle"
+ "function" = "rose"
+ "function.builtin" = "rose"
+ "function.method"  = "foam"
+ "constructor" = "gold"
+ "special" = "gold"
+ "keyword" = "pine"
+ "label" = "iris"
+ "namespace" = "pine"
+ "text" = "text"
+
+ "info" = "gold"
+ "hint" = "gold"
+ "debug" = "rose"
+ "diagnostic" = "rose"
+ "error" = "love"
+
+ [palette]
+ base     = "#111111" 
+ surface  = "#888888" 
+ overlay  = "#26233a"
+ inactive = "#555169"
+ subtle   = "#6e6a86"
+ text     = "#FFFFFF"
+ love     = "#eb6f92"
+ gold     = "#f6c177"
+ rose     = "#ebbcba"
+ pine     = "#31748f"
+ foam     = "#9ccfd8"
+ iris     = "#c4a7e7"
+ highlight = "#eeeeee"
+ highlightInactive = "#211f2d"
+ highlightOverlay = "#3a384a"

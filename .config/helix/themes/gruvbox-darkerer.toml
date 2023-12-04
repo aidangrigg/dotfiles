@@ -1,0 +1,4 @@
+
+inherits = "gruvbox"
+
+"ui.background" = { bg = "#111111" } 

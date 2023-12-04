@@ -1,0 +1,24 @@
+theme = "coffee"
+
+[editor]
+line-number = "relative"
+mouse = false
+auto-format = false
+soft-wrap.enable = true
+idle-timeout = 0
+bufferline = "always"
+rulers = [80]
+
+[editor.cursor-shape]
+insert = "block"
+normal = "block"
+select = "block"
+
+[keys.normal]
+C-d = ["half_page_down", "goto_window_center"]
+C-u = ["half_page_up", "goto_window_center"]
+
+[keys.normal.space]
+m = ":format"
+Z = ":set gutters.line-numbers.min-width 3"
+z = ":set gutters.line-numbers.min-width 60"
