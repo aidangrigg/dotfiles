@@ -27,10 +27,11 @@
 (scroll-bar-mode -1) ; Disable visible scrollbar
 (tool-bar-mode -1)   ; Disable the toolbar
 (tooltip-mode -1)    ; Disable tooltips
-(set-fringe-mode 10) ; Give some breathing room
+(set-fringe-mode 25) ; Give some breathing room
 (menu-bar-mode -1)
 (setq ring-bell-function 'ignore)
 (blink-cursor-mode 0)
+(setq scroll-margin 8)
 
 (global-visual-line-mode 1)
 (visual-line-mode 1)
@@ -93,7 +94,18 @@
   (define-key evil-normal-state-map (kbd "C-d") 'my-scroll-down)
   (define-key evil-normal-state-map (kbd "C-u") 'my-scroll-up)
 
+  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
+  (define-key evil-visual-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-visual-state-map (kbd "k") 'evil-previous-visual-line)
+
   (evil-mode 1))
+
+(use-package evil-commentary
+  :diminish evil-commentary-mode
+  :config
+  (evil-commentary-mode))
 
 (use-package evil-surround
   :config
@@ -133,14 +145,21 @@
     "zf" '(org-roam-node-find :which-key "find")
     "zi" '(org-roam-node-insert :which-key "insert link")
 
-    "k" '(eldoc-doc-buffer :which-key "show documentation")
+    "s" '(:ignore z :which-key "shell")
+    "ss" '(shell :which-key "shell")
+    "se" '(eshell :which-key "eshell")
+    "st" '(term :which-key "term")
+
+    "k" '(eglot-format-buffer :which-key "format buffer")
     "d" '(flymake-show-buffer-diagnostics :which-key "buffer diagnostics")
     "D" '(flymake-show-project-diagnostics :which-key "project diagnostics")
     "rn" '(eglot-rename :which-key "rename")
     "ca" '(eglot-code-actions :which-key "code action")))
 
 (use-package diminish
-  :diminish eldoc-mode)
+  :diminish visual-line-mode
+  :diminish abbrev-mode
+  :diminish auto-revert-mode)
 
 (use-package evil-collection
   :diminish evil-collection-unimpaired-mode
@@ -183,8 +202,8 @@
   ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
   (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_AU"))))
 
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
+;; (use-package counsel-projectile
+;;   :config (counsel-projectile-mode))
 
 ;; Magit
 
@@ -195,11 +214,14 @@
 (use-package org
   :config
 
-  (setq org-agenda-start-with-log-mode t)
-  (setq org-log-done 'time)
-  (setq org-log-into-drawer t)
-  (setq org-adapt-indentation t)
-  (setq org-enforce-todo-dependencies t)
+  (setq org-agenda-start-with-log-mode t
+	org-log-done 'time
+	org-log-into-drawer t
+	org-adapt-indentation t
+	org-enforce-todo-dependencies t)
+
+  (evil-set-initial-state 'org-agenda-mode 'motion)
+
 
   ;; Capture templates
 
@@ -216,26 +238,11 @@
   (setq org-hide-emphasis-markers t)
   (setq org-hide-leading-stars t)
 
-  (let* ((variable-tuple
-          (cond ((x-list-fonts "Roboto Serif")    '(:font "Roboto Serif"))
-                ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-                ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-                ((x-list-fonts "Verdana")         '(:font "Verdana"))
-                ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-                (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-         (headline           `(:inherit default)))
-    
-    (custom-theme-set-faces
-     'user
-     `(org-level-8 ((t (,@headline ,@variable-tuple))))
-     `(org-level-7 ((t (,@headline ,@variable-tuple))))
-     `(org-level-6 ((t (,@headline ,@variable-tuple))))
-     `(org-level-5 ((t (,@headline ,@variable-tuple))))
-     `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-     `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-     `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-     `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-     `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+  ;; Babel stuff
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((C . t)
+			       (haskell . t)
+			       (shell . t)))
 
   (setq org-agenda-files
 	'("~/notes/org/tasks.org")))
@@ -286,7 +293,22 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
+(use-package org-modern
+  :after org
+  :config
+  (global-org-modern-mode 1))
+
 (use-package writeroom-mode)
+
+;; (use-package ido
+;;   :config
+;;   (setq ido-enable-flex-matching t)
+;;   (setq ido-everywhere t)
+;;   (ido-mode 1))
+
+;; (use-package smex
+;;   :bind (("M-x" . smex))
+;;   :config (smex-initialize))
 
 (use-package ivy
   :diminish ivy-mode
@@ -333,26 +355,33 @@
 
 (use-package swiper)
 
-(use-package tao-theme)
+(use-package tao-theme
+  :init
+  (setq tao-theme-use-boxes nil)
+  :config
+  (load-theme 'tao-yang t))
+
+(use-package quasi-monochrome-theme)
+  ;; :init (load-theme 'quasi-monochrome t))
 
 (use-package doom-themes
-  :init (load-theme 'doom-oksolar-light t)
+  ;; :init (load-theme 'doom-oksolar-light t)
   :config
   (setq doom-themes-enable-bold t   
         doom-themes-enable-italic t))
 
-(use-package simple-modeline
-  :hook (after-init . simple-modeline-mode)
-  :custom
-  (simple-modeline-segments
-   '((simple-modeline-segment-modified
-      simple-modeline-segment-buffer-name
-      simple-modeline-segment-position)
-     (simple-modeline-segment-minor-modes
-      simple-modeline-segment-vc
-      simple-modeline-segment-misc-info
-      simple-modeline-segment-process
-      simple-modeline-segment-major-mode))))
+;; (use-package simple-modeline
+;;   :hook (after-init . simple-modeline-mode)
+;;   :custom
+;;   (simple-modeline-segments
+;;    '((simple-modeline-segment-modified
+;;       simple-modeline-segment-buffer-name
+;;       simple-modeline-segment-position)
+;;      (simple-modeline-segment-minor-modes
+;;       simple-modeline-segment-vc
+;;       simple-modeline-segment-misc-info
+;;       simple-modeline-segment-process
+;;       simple-modeline-segment-major-mode))))
 
 (use-package direnv
   :config
@@ -364,26 +393,18 @@
   :config
   (setq which-key-idle-delay 0.3))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-document-title ((t (:inherit default :font "Roboto Serif" :height 2.0 :underline nil))))
- '(org-level-1 ((t (:inherit default :font "Roboto Serif" :height 1.75))))
- '(org-level-2 ((t (:inherit default :font "Roboto Serif" :height 1.5))))
- '(org-level-3 ((t (:inherit default :font "Roboto Serif" :height 1.25))))
- '(org-level-4 ((t (:inherit default :font "Roboto Serif" :height 1.1))))
- '(org-level-5 ((t (:inherit default :font "Roboto Serif"))))
- '(org-level-6 ((t (:inherit default :font "Roboto Serif"))))
- '(org-level-7 ((t (:inherit default :font "Roboto Serif"))))
- '(org-level-8 ((t (:inherit default :font "Roboto Serif")))))
-
 ;; LSP Tings
 
 (use-package eglot
+  :diminish eldoc-mode
   :config
   (define-key evil-normal-state-map (kbd "gd") 'xref-find-definitions))
+
+(use-package eldoc-box
+  :after eglot
+  :config
+  (define-key eglot-mode-map (kbd "<normal-state> K") 'eldoc-box-help-at-point)
+  (define-key evil-normal-state-map (kbd "K") 'eldoc-box-help-at-point))
 
 (use-package company
   :diminish company-mode
@@ -399,8 +420,8 @@
   (global-company-mode 1)
   (company-global-modes
    '(not text-mode message-mode git-commit-mode org-mode magit-status-mode))
-  (company-idle-delay 0.2)
-  (company-minimum-prefix-length 2)
+  (company-idle-delay 0.0)
+  (company-minimum-prefix-length 1)
   (company-require-match nil)
   (company-show-numbers t)
   (company-tooltip-align-annotations t)
@@ -420,9 +441,24 @@
   ;; Search doesn't scroll to focus the current selection
   (company-search-filtering t))
 
+(use-package golden-ratio
+  :diminish golden-ratio-mode
+  :hook (after-init . golden-ratio-mode)
+  :custom
+  (golden-ratio-exclude-modes '(occur-mode)))
+
+(use-package rainbow-mode)
+
+;; Programming modes!
+
 (use-package rust-mode)
 
 (use-package nix-mode
   :mode "\\.nix\\'")
 
 (use-package haskell-mode)
+
+(use-package markdown-mode)
+
+(use-package glsl-mode)
+
