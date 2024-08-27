@@ -3,24 +3,35 @@ alias ls="ls --color"
 alias ll="ls -la"
 
 # dotfiles config
-alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # default opening pdfs with zathura
 alias -s pdf='zathura --fork'
 
+# ranger
+alias r='ranger'
+
 # fzf pdf
-alias fpdf='zathura --fork $(fd -e pdf | fzf); exit;'
+alias fpdf='zathura --fork "$(fd -e pdf . ~ | fzf)"; exit;'
 
 alias ts='tmux new -E "~/.config/tmux/scripts/tmux-sessionizer"'
 
+alias help='feh --class floating ~/downloads/miryoku-kle-reference.png'
+
 # ====================================
-# Arduino
+# Nixos 
 # ====================================
 
-alias ar="arduino-cli"
-alias arls="arduino-cli board list"
+alias nixconf="sudoedit /etc/nixos/configuration.nix"
+alias nixrebuild="sudo nixos-rebuild switch"
 
-alias arcmp="arduino-cli compile --fqbn arduino:avr:uno"
-alias arupl="arduino-cli upload --fqbn arduino:avr:uno -p"
+# ====================================
+# Trash
+# ====================================
 
-
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias tp='trash-put'
+alias tl='trash-list'
+alias tr='trash-restore'
