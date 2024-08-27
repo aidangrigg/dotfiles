@@ -31,7 +31,10 @@
 (blink-cursor-mode 0)
 (setq scroll-margin 8)
 
-(electric-pair-mode 1)
+(custom-set-variables
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
+
+(electric-pair-mode 0)
 (global-hl-line-mode 0) ;; Cursor line
 
 ;;; Backups
@@ -56,6 +59,7 @@
 
 (setq dired-listing-switches "-aBhl  --group-directories-first")
 (setq dired-kill-when-opening-new-dired-buffer t)
+(setq dired-dwim-target t)
 
 ;;; Theming & font
 (set-face-attribute 'default nil :font "Roboto Mono" :height 115)
@@ -199,14 +203,18 @@
 
 (use-package projectile
   :diminish projectile-mode 
-  :config (projectile-mode)
-  :custom ((projectile-completion-system 'ido))
+  :config
+  (projectile-mode)
+  (setq projectile-enable-caching t)
+  :custom ((projectile-completion-system 'ivy))
   :bind (("C-c p" . 'projectile-command-map))
   :init
   ;; NOTE: Set this to the folder where you keep your Git repos!
   (when (file-directory-p "~/projects")
     (setq projectile-project-search-path '("~/projects")))
   (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package rg)
 
 ;; Spellcheck [https://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs/]
 
@@ -248,9 +256,26 @@
 
 ;; Org
 
+(defun my-project-orgfile ()
+  (interactive)
+  (let ((default-directory "~/sync/notes/org/projects/")
+	(project-name (projectile-project-name)))
+    (find-file-other-window (expand-file-name (concat project-name ".org")))))
+
+(defun my-project-agenda ()
+  (interactive)
+  (let ((org-agenda-files
+	 (list
+	  (concat "~/sync/notes/org/projects/"
+		  (concat (projectile-project-name) ".org")))))
+    (call-interactively #'org-agenda)))
+  
+
 (use-package org
   :bind (("C-c o a" . 'org-agenda)
-	 ("C-c o t" . 'org-capture))
+	 ("C-c o c" . 'org-capture)
+	 ("C-c o f" . 'my-project-orgfile)
+	 ("C-c o p" . 'my-project-agenda))
   :config
 
   (setq org-agenda-start-with-log-mode t
@@ -262,7 +287,7 @@
 	org-startup-with-latex-preview t
 	org-id-track-globally t)
 
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.75))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 3))
 
   ;; Capture templates
 
@@ -284,7 +309,28 @@
 			       (shell . t)))
 
   (setq org-agenda-files
-	'("~/sync/notes/org/tasks.org"))
+	'("~/sync/notes/org/tasks.org"
+	  "~/sync/notes/org/mobile.org"))
+
+  ;; (setq org-agenda-custom-commands
+  ;; 	'(("p" "Projects"
+  ;; 	   ((let ((org-files (file-expand-wildcards "~/sync/notes/org/projects/*.org")))
+  ;; 	      (mapcar (lambda (file)
+  ;; 		       (agenda "" ((org-agenda-files '(file))))
+  ;; 		       org-files)))))))
+
+  ;; (setq org-agenda-custom-commands
+  ;; 	'(("p" "Projects"
+  ;; 	   ((agenda "" ((org-agenda-files '("project1.org"))))
+  ;; 	    (agenda "" ((org-agenda-files '("project2.org"))))))))
+
+  ;; (setq org-agenda-custom-commands
+  ;;     (let ((org-files (file-expand-wildcards "~/sync/notes/org/projects/*.org")))
+  ;;       (mapcar (lambda (file)
+  ;;                 (let ((name (file-name-base file)))
+  ;;                   `(,(intern name) ,(format "Agenda for %s" name)
+  ;;                     ((agenda "" ((org-agenda-files '(,file))))))))
+  ;;               org-files)))
 
   (setq org-icalendar-include-todo t)
   (setq org-icalendar-use-scheduled '(todo-start event-if-todo))
@@ -325,6 +371,8 @@
       (error "")))
   
   (org-roam-db-autosync-mode))
+
+(use-package org-roam-ui)
 
 (use-package org-download
   :bind (:map org-mode-map
@@ -387,9 +435,13 @@
 (use-package doom-themes
   :config
   (setq doom-themes-enable-bold t   
-        doom-themes-enable-italic t))
-
-(load-theme 'doom-plain-dark t)
+        doom-themes-enable-italic t)
+  (doom-themes-org-config)
+  (load-theme 'doom-plain-dark t)
+  ;; M-x list-faces-display -> find face thats messed up -> add to below and fix
+  (custom-set-faces
+  `(org-scheduled-previously ((t (:foreground ,(doom-color 'base7)))))
+  `(secondary-selection ((t (:background ,(doom-color 'fg) :foreground ,(doom-color 'bg)))))))
 
 (use-package which-key
   :config (which-key-mode)
@@ -400,26 +452,35 @@
 ;; LSP Tings
 
 ;; Typescript sucks : https://notes.alexkehayias.com/setting-up-typescript-and-eslint-with-eglot/
-(cl-defmethod project-root ((project (head eglot-project)))
-  (cdr project))
-(defun my-project-try-tsconfig-json (dir)
-  (when-let* ((found (locate-dominating-file dir "tsconfig.json")))
-    (cons 'eglot-project found)))
-(add-hook 'project-find-functions
-          'my-project-try-tsconfig-json nil nil)
+;; (cl-defmethod project-root ((project (head eglot-project)))
+;;   (cdr project))
 
-(use-package eglot
-  :diminish eldoc-mode
-  :bind (:map eglot-mode-map
-	      ("C-c f" . eglot-format-buffer)
-	      ("C-c a" . eglot-code-actions))
-  :config
-  ;; (define-key evil-normal-state-map (kbd "gd") 'xref-find-definitions)
-  (eldoc-add-command 'c-electric-paren)
-  (add-to-list 'eglot-server-programs
-	       `(svelte-mode . ("svelteserver" "--stdio")))
-  (add-to-list 'eglot-server-programs
-	       `(typescript-mode . ("typescript-language-server" "--stdio"))))
+;; (defun my-project-try-tsconfig-json (dir)
+;;   (when-let* ((found (locate-dominating-file dir "tsconfig.json")))
+;;     (cons 'eglot-project found)))
+;; (add-hook 'project-find-functions
+;;           'my-project-try-tsconfig-json nil nil)
+
+;; (use-package eglot
+;;   :diminish eldoc-mode
+;;   :bind (:map eglot-mode-map
+;; 	      ("C-c f" . eglot-format-buffer)
+;; 	      ("C-c a" . eglot-code-actions))
+;;   :config
+;;   ;; (define-key evil-normal-state-map (kbd "gd") 'xref-find-definitions)
+;;   (eldoc-add-command 'c-electric-paren)
+;;   (add-to-list 'eglot-server-programs
+;; 	       `(svelte-mode . ("svelteserver" "--stdio")))
+;;   (add-to-list 'eglot-server-programs
+;; 	       `(typescript-mode . ("typescript-language-server" "--stdio")))
+;;   (add-hook 'c-mode-hook 'eglot-ensure))
+
+;; switched to lsp mode because it just works with godot, which eglot absolutely refused to
+(use-package lsp-mode
+  :bind ((:map lsp-mode-map
+	       ("C-c a" . lsp-execute-code-action)
+	       ("C-c e" . flymake-show-project-diagnostics)))
+  :hook ((rust-mode . lsp)))
 
 (use-package yasnippet
   :custom
@@ -475,6 +536,12 @@
 
 (use-package typescript-mode)
 
+(use-package gdscript-mode
+    :straight (gdscript-mode
+               :type git
+               :host github
+               :repo "godotengine/emacs-gdscript-mode"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -482,9 +549,3 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("c3957b559cf3606c9a40777c5712671db3c7538e5d5ea9f63eb0729afeac832b" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "93011fe35859772a6766df8a4be817add8bfe105246173206478a0706f88b33d" "df6dfd55673f40364b1970440f0b0cb8ba7149282cf415b81aaad2d98b0f0290" "3de5c795291a145452aeb961b1151e63ef1cb9565e3cdbd10521582b5fd02e9a" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "21101a7ee55bb8af0215f1735da8f3b48cf28025c2d86c0009175ce43ee01fb1" default)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
