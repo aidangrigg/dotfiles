@@ -32,7 +32,15 @@
 (setq scroll-margin 8)
 
 (custom-set-variables
- '(initial-frame-alist (quote ((fullscreen . maximized)))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("c3957b559cf3606c9a40777c5712671db3c7538e5d5ea9f63eb0729afeac832b" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "93011fe35859772a6766df8a4be817add8bfe105246173206478a0706f88b33d" "df6dfd55673f40364b1970440f0b0cb8ba7149282cf415b81aaad2d98b0f0290" "3de5c795291a145452aeb961b1151e63ef1cb9565e3cdbd10521582b5fd02e9a" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "21101a7ee55bb8af0215f1735da8f3b48cf28025c2d86c0009175ce43ee01fb1" default))
+ '(initial-frame-alist '((fullscreen . maximized)))
+ '(org-safe-remote-resources
+   '("\\`https://fniessen\\.github\\.io/org-html-themes/org/theme-readtheorg\\.setup\\'")))
 
 (electric-pair-mode 0)
 (global-hl-line-mode 0) ;; Cursor line
@@ -65,9 +73,7 @@
 (set-face-attribute 'default nil :font "Roboto Mono" :height 115)
 ;; (set-face-attribute 'default nil :font "JetBrains Mono" :height 110)
 
-;;; Line numbers
-(setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode 1)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 ;; jump to end of compilation buffer automatically
 (setq compilation-scroll-output t)
@@ -105,6 +111,98 @@
     (exec-path-from-shell-initialize)))
 
 ;; PLUGINS
+
+;; MEOW
+
+(use-package meow
+  :config
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore)))
+  (meow-setup)
+  (meow-global-mode 1))
 
 ;; Evil mode
 
@@ -284,10 +382,9 @@
 	org-adapt-indentation t
 	org-enforce-todo-dependencies t
 	org-startup-with-inline-images t
-	org-startup-with-latex-preview t
 	org-id-track-globally t)
 
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 3))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.75))
 
   ;; Capture templates
 
@@ -345,7 +442,9 @@
          ("C-c r i" . org-roam-node-insert)
          ("C-c r c" . org-roam-capture)
          ;; Dailies
-         ("C-c r j" . org-roam-dailies-capture-today))
+         ("C-c r j" . org-roam-dailies-capture-today)
+	 :map org-mode-map
+	 ("C-c C-c" . org-latex-export-to-latex))
   :config
   ;; If you're using a vertical completion framework, you might want a more informative completion interface
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
@@ -480,7 +579,15 @@
   :bind ((:map lsp-mode-map
 	       ("C-c a" . lsp-execute-code-action)
 	       ("C-c e" . flymake-show-project-diagnostics)))
-  :hook ((rust-mode . lsp)))
+  :hook ((rust-mode . lsp)
+	 (js-mode . lsp)
+	 (typescript-mode . lsp)
+	 (tsx-mode . lsp)))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :bind ((:map lsp-ui-mode-map
+	       ("C-c k" . lsp-ui-doc-glance))))
 
 (use-package yasnippet
   :custom
@@ -515,9 +622,15 @@
   :config
   (editorconfig-mode 1))
 
+(require 'treesit)
+
+(setq treesit-extra-load-path '("~/.config/emacs/treesitter"))
+
 (use-package rainbow-mode)
 
-(use-package pdf-tools)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
 
 ;; Programming modes!
 
@@ -536,16 +649,34 @@
 
 (use-package typescript-mode)
 
-(use-package gdscript-mode
-    :straight (gdscript-mode
-               :type git
-               :host github
-               :repo "godotengine/emacs-gdscript-mode"))
+(use-package coverlay)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
+(use-package origami)
+
+(use-package css-in-js-mode
+  :straight (css-in-js-mode
+	     :type git
+	     :host github
+	     :repo "orzechowskid/tree-sitter-css-in-js"))
+
+(use-package tsx-mode
+  :straight (tsx-mode
+             :type git
+             :host github
+             :repo "orzechowskid/tsx-mode.el")
+  :mode "\\.[jt]s[x]?\\'")
+
+(use-package gdscript-mode
+  :straight (gdscript-mode
+             :type git
+             :host github
+             :repo "godotengine/emacs-gdscript-mode"))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("c3957b559cf3606c9a40777c5712671db3c7538e5d5ea9f63eb0729afeac832b" "801a567c87755fe65d0484cb2bded31a4c5bb24fd1fe0ed11e6c02254017acb2" "dbade2e946597b9cda3e61978b5fcc14fa3afa2d3c4391d477bdaeff8f5638c5" "4b6cc3b60871e2f4f9a026a5c86df27905fb1b0e96277ff18a76a39ca53b82e1" "93011fe35859772a6766df8a4be817add8bfe105246173206478a0706f88b33d" "df6dfd55673f40364b1970440f0b0cb8ba7149282cf415b81aaad2d98b0f0290" "3de5c795291a145452aeb961b1151e63ef1cb9565e3cdbd10521582b5fd02e9a" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "21101a7ee55bb8af0215f1735da8f3b48cf28025c2d86c0009175ce43ee01fb1" default)))
+ '(org-scheduled-previously ((t (:foreground "#ffdddd"))))
+ '(secondary-selection ((t (:background "#d7d5d1" :foreground "#222222")))))
